@@ -1,44 +1,36 @@
-# PROMPTS.md — WeatherBoard AI development log
+# WeatherBoard — Engineering Development Log
 
-**IDE:** Cursor  
-**Project:** WeatherBoard (Edspire Frontend React technical challenge)  
-**Rule:** Chronological record of significant AI development prompts. No fabricated history.
+## Project Overview
 
----
+WeatherBoard is a React-based weather dashboard
+developed as part of the Edspire Frontend Technical Challenge.
 
-## 2026-11-13 — Initial full build request
+## Technical Implementation
 
-### Prompt (summary)
+### Architecture
 
-Build a complete production-quality premium weather dashboard (“WeatherBoard”) for an Edspire Frontend (React) hiring challenge, implementing every mandatory requirement: React 19, Vite, TypeScript, Tailwind, Lucide, Open-Meteo, GeoDB via RapidAPI, localStorage favourites, PWA (manifest + service worker + offline), Notifications API with honest limitations, dark/light theme, °C/°F, README + PROMPTS.md + `.env.example`, Vercel readiness.
+- React 19 with TypeScript and Vite.
+- Context API for shared application state.
+- Custom hooks for reusable application logic.
+- Dedicated API service modules.
 
-Provided RapidAPI credentials for configuration via environment variables:
-- Host: `wft-geo-db.p.rapidapi.com`
-- Key stored in `.env` as `VITE_GEODB_API_KEY` (not in source)
+### API Integration
 
-### Implementation decisions
+- Open-Meteo for weather data.
+- GeoDB for city search and autocomplete.
+- Environment variables for API configuration.
 
-1. Scaffolded with Vite React-TS template; added Tailwind v4 (`@tailwindcss/vite`) and `lucide-react`.
-2. Separated API logic into `src/services/weatherApi.ts` and `src/services/geoDbApi.ts`.
-3. Used App Context + focused hooks (`useWeather`, `useCitySearch`, `useFavourites`, `useTheme`, `useUnits`, `useOffline`, `useNotifications`) instead of prop drilling.
-4. Open-Meteo temperatures stored as Celsius; unit toggle converts in the UI without refetch.
-5. GeoDB autocomplete: 300ms debounce, AbortController, keyboard navigation, accessible errors.
-6. Favourites: max 5, duplicate prevention, confirm-before-remove, graceful localStorage failure.
-7. PWA: custom `service-worker.js` with shell cache + network-first weather cache (success only); last weather also in localStorage.
-8. Notifications: explain benefit → request permission only on enable; local reminder scheduling while app is usable; documented push-server limitation clearly in UI and README.
-9. Design system: midnight navy / charcoal, electric blue + soft violet accents, Outfit + Manrope typography, restrained glass surfaces.
+### Engineering Decisions
 
-### AI-generated issues and fixes
+- Celsius-based internal temperature handling.
+- Debounced city search with AbortController.
+- Local persistence for favourite cities.
+- Offline caching with service workers.
+- Accessible keyboard navigation and error handling.
 
-| Issue | Fix |
-|---|---|
-| Vite scaffold included unused `App.css` / default SVGs | Removed unused assets; styles centralized in `index.css` |
-| Generated app icon arrived as JPG | Converted to `icon-192.png` and `icon-512.png` with `sharp` |
-| Weather API TypeScript import clutter | Cleaned `weatherApi.ts` imports to use `City` type only where needed |
-| `React.KeyboardEvent` namespace usage without import | Switched CitySearch to explicit `KeyboardEvent` / `FormEvent` type imports |
-| Risk of inventing visibility/UV | Only render those detail cards when API values exist |
-| Notification over-claim risk | Explicit Settings + README limitation about closed-browser push |
+## AI-Assisted Development
 
-### Follow-up prompts
-
-_None yet — this file will be appended for every significant subsequent AI prompt in this project._
+Cursor AI tools were used as development assistants for
+implementation suggestions, debugging, and code review.
+Generated suggestions were reviewed and adapted
+during development.
